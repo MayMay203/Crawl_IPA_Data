@@ -147,8 +147,6 @@ async def crawl_urls(
 
                 if output_dir:
                     url_filename = result.url.replace("://", "_").replace("/", "_").replace("?", "_")
-                    if len(url_filename) > 100:
-                        url_filename = url_filename[:100]
                     output_file = output_path / f"{url_filename}.md"
                     with open(output_file, "w", encoding="utf-8") as f:
                         f.write(result.markdown.raw_markdown if result.markdown else "")

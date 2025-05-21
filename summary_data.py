@@ -62,3 +62,63 @@ with open(output_path, "w", encoding="utf-8") as f:
     json.dump(results, f, ensure_ascii=False, indent=2)
 
 print("🎉 Hoàn tất! Kết quả đã ghi vào output.json")
+
+
+# Trường hợp gemini quá request
+# # Đọc dữ liệu đã có trong output.json nếu tồn tại
+# if os.path.exists(output_path):
+#     with open(output_path, "r", encoding="utf-8") as f:
+#         try:
+#             results = json.load(f)
+#         except json.JSONDecodeError:
+#             print("⚠️ output.json bị lỗi hoặc trống. Bắt đầu mới.")
+#             results = []
+
+# # Tạo danh sách URL đã xử lý
+# existing_urls = {item["url"] for item in results if "url" in item}
+
+# # Tên file muốn bắt đầu từ đó
+# start_filename = "https_investdanang.gov.vn_web_guest_so-lieu-thong-ke.md"
+# start_processing = False
+
+# # Duyệt file .md
+# for filename in os.listdir(input_dir):
+#     print(filename)
+#     if filename.endswith(".md"):
+#         decoded_filename = urllib.parse.unquote(filename)
+#         if decoded_filename == start_filename:
+#             start_processing = True
+
+#         if not start_processing:
+#             continue  # bỏ qua cho đến khi gặp file bắt đầu
+
+#         url_key = filename.replace(".md", "")
+#         if url_key in existing_urls:
+#             print(f"❎ Bỏ qua vì đã có: {filename}")
+#             continue
+
+#         filepath = os.path.join(input_dir, filename)
+#         with open(filepath, "r", encoding="utf-8") as f:
+#             content = f.read()
+
+#         prompt = f'Bạn hãy đọc đoạn văn bản dưới đây và tóm tắt lại nội dung chính, chỉ lấy phần văn bản chính, bỏ qua tất cả các link, địa chỉ URL, hình ảnh, biểu tượng, quảng cáo, các phần điều hướng hoặc nội dung không liên quan khác. Chỉ trả về phần nội dung văn bản thuần túy, ngắn gọn và súc tích. Đoạn văn bản: "{content}"'
+
+#         try:
+#             response = model.generate_content(prompt)
+#             summary = response.text.strip()
+
+#             results.append({
+#                 "url": url_key,
+#                 "text": summary
+#             })
+
+#             print(f"✅ Đã tóm tắt: {filename}")
+
+#         except Exception as e:
+#             print(f"❌ Lỗi khi xử lý {filename}: {e}")
+
+# # Ghi lại toàn bộ (bao gồm dữ liệu cũ + mới)
+# with open(output_path, "w", encoding="utf-8") as f:
+#     json.dump(results, f, ensure_ascii=False, indent=2)
+
+# print("🎉 Hoàn tất! Dữ liệu đã được cập nhật vào output.json")
